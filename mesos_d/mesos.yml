@@ -1,0 +1,36 @@
+zookeeper:
+  image: jplock/zookeeper:3.4.8
+  net: "host"
+  volumes:
+    - ${ZK_CONF_DIR}/myid:/tmp/zookeeper/myid
+    - ${ZK_CONF_DIR}/zoo.cfg:/opt/zookeeper/conf/zoo.cfg
+  restart: always
+
+mesosmaster:
+  image: mesosphere/mesos-master:0.28.1
+  net: "host"
+  environment:
+    - MESOS_ZK=${ZK_URI}/mesos
+    - MESOS_CLUSTER=${CLUSTER_NAME}
+    - MESOS_HOSTNAME=${HOST_IP}
+    - MESOS_ADVERTISE_IP=${HOST_IP}
+    - MESOS_ADVERTISE_PORT=${MESOS_MASTER_PORT}
+    - MESOS_PORT=${MESOS_MASTER_PORT}
+    - MESOS_IP=${MESOS_LISTEN_ON_IP}
+    - MESOS_QUORUM=${MESOS_QUORUM}
+    - MESOS_REGISTRY=replicated_log
+    - MESOS_LOG_DIR=/var/log/mesos
+    - MESOS_WORK_DIR=${MESOS_MASTER_WORK_DIR}
+  restart: always
+
+marathon:
+  image: mesosphere/marathon:v1.1.1
+  net: "host"
+  environment:
+    - MARATHON_MASTER=${ZK_URI}/mesos
+    - MARATHON_ZK=${ZK_URI}/marathon
+    - MARATHON_HOSTNAME=${HOST_IP}
+    - MARATHON_HTTP_PORT=${MARATHON_HTTP_PORT}
+    - MARATHON_TASK_LAUNCH_TIMEOUT=300000 # In milliseconds, >= MESOS_EXECUTOR_REGISTRATION_TIMEOUT of Mesos Slave
+    - LIBPROCESS_IP=$M_LIBPROCESS_IP
+  restart: always

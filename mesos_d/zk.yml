@@ -1,0 +1,36 @@
+zookeeper:
+  image: jplock/zookeeper:3.4.8
+  net: "host"
+  volumes:
+    - ${ZK_CONF_DIR}/myid:/tmp/zookeeper/myid
+    - ${ZK_CONF_DIR}/zoo.cfg:/opt/zookeeper/conf/zoo.cfg
+  restart: always
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

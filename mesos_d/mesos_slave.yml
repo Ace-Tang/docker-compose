@@ -1,0 +1,26 @@
+mesosslave:
+  image: mesosphere/mesos-slave:0.28.1
+  net: "host"
+  pid: "host"
+  privileged: true
+  environment:
+    - MESOS_MASTER=${ZK_URI}/mesos
+    - MESOS_HOSTNAME=${HOST_IP}
+    - MESOS_PORT=${MESOS_SLAVE_PORT}
+    - MESOS_IP=${MESOS_LISTEN_ON_IP}
+    - MESOS_LOG_DIR=/var/log/mesos
+    - MESOS_LOGGING_LEVEL=INFO
+    - MESOS_ATTRIBUTES=${MESOS_SLAVE_ATTR}
+    - MESOS_CONTAINERIZERS=mesos,docker
+    - MESOS_DOCKER_SOCKET=/var/run/docker.sock
+    - MESOS_DOCKER_MESOS_IMAGE=ugistry.ucloud.cn/ohmystack/mesos-slave:0.26.0-1.8.2-1
+    - MESOS_EXECUTOR_REGISTRATION_TIMEOUT=$MESOS_EXECUTOR_REGISTRATION_TIMEOUT
+    - MESOS_RECOVERY_TIMEOUT=$MESOS_RECOVERY_TIMEOUT
+    - MESOS_DOCKER_KILL_ORPHANS=true
+    - MESOS_WORK_DIR=${MESOS_SLAVE_WORK_DIR}
+  volumes:
+    - ${DOCKER_BIN}:/usr/bin/docker
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /sys/fs/cgroup:/sys/fs/cgroup
+    - ${MESOS_SLAVE_WORK_DIR}:${MESOS_SLAVE_WORK_DIR}
+  restart: always

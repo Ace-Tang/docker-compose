@@ -1,0 +1,17 @@
+version: '2'
+services:
+    elasticsearch:
+        image: elasticsearch
+        ports:
+            - 9200:9200
+        environment:
+            - ELASTICSEARCH_URL=http://10.8.12.200:9200
+    kibana:
+        image: kibana
+        ports:
+            - 5601:5601
+    logstash:
+        image: logstash
+        volumes:
+            - /root/compose/config:/config-dir
+        command: -f /config-dir/logstash.conf
