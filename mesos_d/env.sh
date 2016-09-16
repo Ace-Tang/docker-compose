@@ -1,9 +1,9 @@
 # -----------------
 # Host info
 # -----------------
-export HOST_ID="bjd-master-0003"
+export HOST_ID="master-001"
 # HOST_IP is the VM's public IP, for remote communication
-export HOST_IP="23.248.163.39"
+export HOST_IP="45.249.244.112"
 # LOCAL_NIC_IP is the IP configured on VM's local NIC
 export LOCAL_NIC_IP=$(ip addr show eth0 | awk '$1 == "inet" {gsub(/\/.*$/, "", $2); print $2}')
 
@@ -11,7 +11,7 @@ export LOCAL_NIC_IP=$(ip addr show eth0 | awk '$1 == "inet" {gsub(/\/.*$/, "", $
 # Zookeeper
 # -----------------
 CONF_ROOT=$(pwd)
-export ZK_URI="zk://10.8.12.174:2181,10.8.15.49:2181,10.8.6.34:2181"
+export ZK_URI="zk://$LOCAL_NIC_IP:2181"
 # !!! Remember to edit "zoo.cfg" & "myid" in ZK_CONF_DIR
 export ZK_CONF_DIR="$CONF_ROOT/zookeeper"
 
@@ -25,8 +25,8 @@ export MESOS_LISTEN_ON_IP=$LOCAL_NIC_IP
 # -----------------
 export CLUSTER_NAME="cluster"
 export MESOS_MASTER_PORT="25050"
-export MESOS_QUORUM=2
-export MESOS_MASTER_WORK_DIR='/tmp/mesos_master'
+export MESOS_QUORUM=1
+export MESOS_MASTER_WORK_DIR='/data'
 
 # -----------------
 # Mesos Slave only

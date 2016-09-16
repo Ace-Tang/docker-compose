@@ -3,9 +3,8 @@
 DIR=`pwd`
 source $DIR/docker_env.sh
 
-source $DIR/env.sh 
-docker-compose up -f mesos.yml -d
+source $DIR/env.sh && docker-compose -f mesos.yml up -d
 
 sleep 5
 
-docker-compose up -f mesos_slave.yml -d
+docker-compose -f mesos_slave.yml up -d

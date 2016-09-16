@@ -7,7 +7,7 @@ zookeeper:
   restart: always
 
 mesosmaster:
-  image: mesosphere/mesos-master:0.28.1
+  image: mesosphere/mesos-master:1.0.0
   net: "host"
   environment:
     - MESOS_ZK=${ZK_URI}/mesos
@@ -24,7 +24,7 @@ mesosmaster:
   restart: always
 
 marathon:
-  image: mesosphere/marathon:v1.1.1
+  image: mesosphere/marathon:v1.3.0
   net: "host"
   environment:
     - MARATHON_MASTER=${ZK_URI}/mesos
